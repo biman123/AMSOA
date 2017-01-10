@@ -1,0 +1,40 @@
+<?xml version="1.0" ?> 
+<project name="CLI build file for helloworld1 sample" basedir="." default="all">
+
+	<property name="topDir" value="C:/helloworld1"/>	
+	
+	<property name="javaProjectName" value="jv.helloworld1.jv"/>
+	<property name="soaProjectName" value="jv.helloworld1.soa"/>
+	
+	<property name="importJavaProject" value="${topDir}/${javaProjectName}"/>
+	<property name="importSoaProject" value="${topDir}/${soaProjectName}"/>
+	
+
+	<!-- Main target -->
+	<target name="all" 
+			depends="importProjectsIntoWorkspace, createApplicationDAA"/>		
+
+	<!-- Imports the projects into the workspace -->
+	<target name="importProjectsIntoWorkspace">		
+	
+		<sds.importProject projectLoc="${importJavaProject}" />
+
+		<sds.importProject projectLoc="${importSoaProject}" />
+		
+	</target>
+	
+	
+	<target name="createApplicationDAA">
+		
+		<sds.createDAA
+			projectName="${soaProjectName}" 
+			daaLoc="/${soaProjectName}/Deployment Artifacts/${soaProjectName}.daa"
+			includeApplicationReferences="true"
+			overwriteExistingDAA="true">
+
+			<application compositeName="${soaProjectName}"/>
+
+		</sds.createDAA>
+				
+	</target>
+</project>
